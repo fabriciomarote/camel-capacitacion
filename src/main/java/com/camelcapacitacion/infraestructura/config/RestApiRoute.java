@@ -8,16 +8,8 @@ public class RestApiRoute extends RouteBuilder {
 
     @Override
     public void configure() {
-        restConfiguration()
-                .enableCORS(true);
-
-        rest("/api/")
-                .id("api-route")
-                .produces("text/plain")
-                .get("/saludo")
-                .to("direct:getSaludo");
-
-        from("direct:getSaludo")
-                .setBody(constant("Hola Camel"));
+        from("platform-http:/api/camel/saludo?httpMethodRestrict=GET&produces=text/plain")
+            .log("Recibida una solicitud en /api/saludo")
+            .setBody(constant("Hola Camel"));
     }
 }

@@ -1,8 +1,7 @@
 package com.camelcapacitacion.infraestructura.config;
 
-import com.camelcapacitacion.infraestructura.domain.application.SucursalService;
-import com.camelcapacitacion.infraestructura.domain.application.PersonaService;
-import com.camelcapacitacion.infraestructura.domain.repository.PersonaRepository;
+import com.camelcapacitacion.domain.application.SucursalService;
+import com.camelcapacitacion.domain.application.PersonaService;
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,7 @@ import org.springframework.stereotype.Component;
 public class CamelRoute extends RouteBuilder {
 
     @Autowired
-    private PersonaRepository personaRepository;
+    private PersonaService personaService;
     @Autowired
     private SucursalService camelService;
 
@@ -79,7 +78,7 @@ public class CamelRoute extends RouteBuilder {
 
         from("direct:obtenerTodasLasPersonas")
                 .log(LoggingLevel.INFO,"Obteniendo todas las personas")
-                .bean(personaRepository, "findAllByOrderByNombreAsc")
+                .bean(personaService, "obtenerTodasLasPersonas")
                 .log(LoggingLevel.INFO,"Personas encontradas: ${body}")
                 .convertBodyTo(String.class);
 
